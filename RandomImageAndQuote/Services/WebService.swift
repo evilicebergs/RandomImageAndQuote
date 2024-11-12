@@ -26,7 +26,7 @@ class WebService {
         return randomImages
     }
     
-    private func decodeImage(id: Int) async throws -> RandomImage {
+    func decodeImage(id: Int) async throws -> RandomImage {
         
         guard let imageURL = Constants.imageURL() else {
             throw NetworkError.badURL

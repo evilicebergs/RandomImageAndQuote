@@ -12,16 +12,31 @@ struct ContentView: View {
     @StateObject private var randomImageList = ViewModel()
     
     var body: some View {
-        List(randomImageList.randomImages) { randomImage in
-            HStack {
-                Image(uiImage: randomImage.image!)
-                    .resizable()
-                    .scaledToFit()
-                Text(randomImage.quote)
+        NavigationStack {
+            List(randomImageList.randomImages) { randomImage in
+                HStack {
+                    Image(uiImage: randomImage.image!)
+                        .resizable()
+                        .scaledToFit()
+                    Text(randomImage.quote)
+                }
             }
-        }
-        .task {
-            await randomImageList.getRandomimages(ids: Array(100...200))
+            .navigationTitle("Images")
+            .task {
+                await randomImageList.getRandomimages(ids: Array(100...200))
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        Task {
+                            await randomImageList.getRandomimages(ids: Array(100...200))
+                        }
+                    } label: {
+                        Image(systemName: "arrow.clockwise.circle")
+                    }
+
+                }
+            }
         }
     }
 }
