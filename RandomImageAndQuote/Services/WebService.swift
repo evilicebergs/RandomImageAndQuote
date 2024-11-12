@@ -23,8 +23,25 @@ class WebService {
     
     private func decodeImage(id: Int) async throws -> RandomImage {
         
+        guard let imageURL = Constants.imageURL(), let quoteURL = Constants.quoteURL else {
+            throw NetworkError.badURL
+        }
         
+        async let (imageData, _) = URLSession.shared.data(from: imageURL)
+        async let (quoteData, _) = URLSession.shared.data(from: quoteURL)
+        
+        guard let quote = try? JSONDecoder().decode(Quote.self, from: try await quoteData) else {
+            throw NetworkError.decodingError
+        }
+        
+        return RandomImage(image: try await imageData, quote: quote)
         
     }
     
+}
+
+enum NetworkError: Error {
+    case badURL
+    case invalidImage(Int)
+    case decodingError
 }
