@@ -38,9 +38,9 @@ class WebService {
 //        guard let quote = try? JSONDecoder().decode(Quote.self, from: try await quoteData) else {
 //            throw NetworkError.decodingError
 //        }
-        let quote = Quote(content: "Testing Quote")
+        let quote = [Quote(content: "To Be Is To Be"), Quote(content: "To Do IS To Do"), Quote(content: "John Cena"), Quote(content: "Nature Inspiring"), Quote(content: "Fortnit balls"), Quote(content: "To walk - walk"), Quote(content: "Hell Yes")]
         
-        return RandomImage(image: try await imageData, quote: quote)
+        return RandomImage(image: try await imageData, quote: quote.randomElement()!)
         
     }
     
